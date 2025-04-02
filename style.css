@@ -1,0 +1,217 @@
+#header-id {
+  padding: 1%;
+  /* Adds 5% padding around the container */
+  background-color: rgb(212, 212, 212);
+  color: black;
+  height: 7vh;
+  margin-bottom: 1vh;
+}
+
+#title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  /* Extra-bold */
+}
+
+#h1 {
+  font-weight: bold;
+}
+
+.container-fluid2 {
+  height: 91vh;
+  /* Make the entire container take full viewport height after we account for 2vh for margin and 7 for header */
+}
+
+.row {
+  height: 100%;
+  /* Ensure the row fills the height */
+}
+
+#my-map {
+  height: 100%;
+  /* Make the map fill its container */
+  width: 100%;
+  overflow: hidden;
+  /* Cut off any parts outside the 9-column width */
+}
+
+#filters-col {
+  background-color: rgb(212, 212, 212);
+  margin-left: 1.5%;
+  padding: 0.1%;
+
+}
+
+#details-col {
+  margin-right: 1.5%;
+  overflow-x: auto;
+}
+
+#program-row {
+  height: fit-content; /* Modern browsers */
+  min-height: fit-content; /* Alternative */
+  background-color:  rgb(212, 212, 212);
+  margin-top: 0;
+  margin-bottom: 1vh;
+}
+#legend-row{
+  height: fit-content; /* Modern browsers */
+  min-height: fit-content; /* Alternative */
+  background-color: rgb(212, 212, 212);
+  margin-top: 0%;
+  margin-bottom: 1.5%;
+  font-size: 16px;
+
+}
+
+#food-program-details {
+  height: fit-content;
+  min-height: fit-content;
+  background-color: rgb(212, 212, 212);
+  margin-top: 0;
+  margin-bottom: 1vh;
+  padding-left: 2%;
+  padding-top: 2%;
+  max-width: 100%; /* Ensure it doesn't exceed its parent width */
+  overflow-x: auto; 
+}
+
+#food-program-details h2 {
+  font-size: 16px; /* Reduced from 16px */
+  margin-bottom: 5px;
+  font-weight: 600; /* Optional: make it slightly bolder for better readability at smaller size */
+}
+
+#food-program-details p {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+#food-program-details {
+  padding-left: 2%;
+  padding-top: 2%;
+}
+
+.legend span {
+  display: inline-block;
+  height: 10px;
+  width: 10px;
+  margin-right: 5px;
+}
+
+#walk_legend div:nth-child(2) span {
+  background-color: #063b00;
+}
+
+#walk_legend div:nth-child(3) span {
+  background-color: #089000;
+}
+
+#walk_legend div:nth-child(4) span {
+  background-color: #0eff00;
+}
+
+#pt_legend div:nth-child(2) span {
+  background-color: #4c00a4;
+}
+
+#pt_legend div:nth-child(3) span {
+  background-color: #00bbd1;
+}
+
+#pt_legend div:nth-child(4) span {
+  background-color: #00fff3;
+}
+
+.dropdown-toggle {
+  padding: 10px;
+  cursor: pointer;
+  /* Fixed width for the dropdown buttons */
+  text-align: left;
+  margin: 5px;
+  /* Space between dropdown buttons */
+}
+
+.dropdown-toggle:hover {
+  background-color: #ddd;
+}
+
+/* Style for the dropdown menu */
+.dropdown-menu {
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Style for dropdown items */
+.dropdown-item {
+  display: block;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Style for checkboxes */
+.dropdown-item input[type="checkbox"] {
+  margin-right: 10px;
+}
+#network-toshow .form-check-label {
+  font-size: 15px; 
+}
+
+/* Style for the reset button */
+#reset-filters {
+  margin-top: 15px;
+  margin-bottom:15px;
+  margin-left: 5px;
+  padding: 10px;
+  background-color: #ffcccc;
+  border: 1px solid #ff9999;
+  cursor: pointer;
+}
+
+#reset-filters:hover {
+  background-color: #ff9999;
+}
+
+@media (max-width: 1100px) {
+
+  /* Adjust the value as needed */
+  .row {
+     flex-direction: column;
+     /* Stack elements */
+  }
+
+  #my-map {
+     height: 50vh;
+     /* Adjust map height when stacked */
+  }
+
+  #details-col {
+     margin-top: 2vh;
+     /* Add space when stacked */
+     width: fit-content;
+     overflow-x: auto;
+     /* This allows scrolling if content overflows */
+     max-height: 100vh;
+     /* Limit height so it doesn’t grow infinitely */
+  }
+
+}
+
+#filters-col {
+  margin-bottom: 2vh;
+  width: fit-content;
+}
+
+
+#walk_legend,
+#pt_legend {
+  font-size: 14px;
+  /* Adjust the size as needed */
+}
