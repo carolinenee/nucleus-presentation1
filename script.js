@@ -146,6 +146,11 @@ const ontarioBbox = [-95.15625, 41.6766, -74.34375, 56.8594];
       if (foodProg) updateLayers();
   }
   
+  //event listener for closing popup 
+  document.querySelector('.close-btn').addEventListener('click', function() {
+    document.getElementById('popup').style.display = 'none';
+  });  
+  
   // Program type filter event listeners
   document.querySelectorAll('.program-option').forEach(item => {
       item.addEventListener('click', (e) => {
@@ -245,6 +250,8 @@ document.querySelectorAll('.program-option').forEach(item => {
       zoom: 11,
       essential: true
     });
+    //show legend row 
+    document.getElementById('legend-row').style.display = 'block';
     //info container data 
     foodProg = e.features[0].properties.OBJECTID.toString();
     console.log('foodProg set to:', foodProg);
