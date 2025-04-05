@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //loading food program point data
     map.addSource('food_data', {
       type: 'geojson',
-      data: 'https://raw.githubusercontent.com/carolinenee/nucleus/refs/heads/main/Food%20Services%20Locations%20and%20Day_Time%20Filters.geojson' // link to git hub raw data file
+      data: 'https://raw.githubusercontent.com/carolinenee/nucleus-presentation1/refs/heads/main/data/peel_fp.geojson' // link to git hub raw data file
     });
 
     //adding the food program point data to the map 
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //loading walk coverage data
     map.addSource('walk_data', {
       type: 'geojson',
-      data: 'https://raw.githubusercontent.com/carolinenee/nucleus/refs/heads/main/walk.geojson'
+      data: 'https://raw.githubusercontent.com/carolinenee/nucleus-presentation1/refs/heads/main/data/walk.geojson'
     });
 
     //adding the walk coverage data to the map
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //loading public transit coverage data
     map.addSource('pt_data', {
       type: 'geojson',
-      data: 'https://raw.githubusercontent.com/carolinenee/nucleus/refs/heads/main/totalpt.geojson'
+      data: 'https://raw.githubusercontent.com/carolinenee/nucleus-presentation1/refs/heads/main/data/totalpt.geojson'
     });
 
     //adding the public transit coverage data to the map
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     map.addSource('boundaries', {
       type: 'geojson',
-      data: 'https://raw.githubusercontent.com/carolinenee/nucleus/refs/heads/main/peel_bound.geojson'
+      data: 'https://raw.githubusercontent.com/carolinenee/nucleus-presentation1/refs/heads/main/data/peel_bound.geojson'
     });
 
     map.addLayer({
