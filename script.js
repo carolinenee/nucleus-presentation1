@@ -85,7 +85,6 @@ const ontarioBbox = [-95.15625, 41.6766, -74.34375, 56.8594];
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
-      marker: false, // Set to true if you want a marker at the location
       placeholder: 'Search for places or addresses',
       bbox: ontarioBbox, // Restrict results to Ontario
       countries: 'ca' // Further restrict to Canada
