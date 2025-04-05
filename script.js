@@ -348,9 +348,9 @@ document.querySelectorAll('.program-option').forEach(item => {
       'case',
       ['==', ['get', concatProg], null], 'rgba(0,0,0,0)',
       ['step', ['to-number', ['get', concatProg]],
-        '#4c00a4', 30,
-        '#00bbd1', 45,
-        '#00fff3', 60,
+        '#4c00a4', 10,
+        '#00bbd1', 20,
+        '#00fff3', 30,
         'rgba(0,0,0,0)'
       ]
     ]);
