@@ -79,8 +79,10 @@ document.addEventListener('DOMContentLoaded', function () {
     map.setLayoutProperty('pt_data', 'visibility', 'none');
 
     initCheckboxListeners();
-      //ouline box for approximatelt ontario
-const ontarioBbox = [-95.15625, 41.6766, -74.34375, 56.8594];
+
+    //ouline box for approximately Ontario
+    const ontarioBbox = [-95.15625, 41.6766, -74.34375, 56.8594];
+    
     // Add the geocoder to the map
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
@@ -109,94 +111,94 @@ const ontarioBbox = [-95.15625, 41.6766, -74.34375, 56.8594];
   
   // Function to update filters when checkboxes are clicked
   function updateFilters() {
-      console.log('Updating filters with day:', selectedDay, 'time:', selectedTime, 'program:', selectedProgram);
-  
-      // Only apply filters when ALL THREE are selected
-      if (selectedDay && selectedTime && selectedProgram) {
-          const timeIndex = { morning: 0, afternoon: 1, evening: 2 }[selectedTime];
-          
-          // Create day/time filter
-          const dayTimeFilter = [
-              '==',
-              ['at', timeIndex, ['coalesce', ['get', selectedDay], ['literal', [0, 0, 0]]]],
-              1
-          ];
-  
-          // Create program filter
-          const programFilter = selectedProgram === "Other" 
-              ? [
-                  '!',
-                  ['match',
-                      ['get', 'PROGRAM'],
-                      ['Food Pantry', 'Food Bank', 'Soup Kitchen', 'Multi-Service'],
-                      true,
-                      false
-                  ]
+    console.log('Updating filters with day:', selectedDay, 'time:', selectedTime, 'program:', selectedProgram);
+
+    // Only apply filters when ALL THREE are selected
+    if (selectedDay && selectedTime && selectedProgram) {
+        const timeIndex = { morning: 0, afternoon: 1, evening: 2 }[selectedTime];
+        
+        // Create day/time filter
+        const dayTimeFilter = [
+            '==',
+            ['at', timeIndex, ['coalesce', ['get', selectedDay], ['literal', [0, 0, 0]]]],
+            1
+        ];
+
+        // Create program filter
+        const programFilter = selectedProgram === "Other" 
+            ? [
+                '!',
+                ['match',
+                    ['get', 'PROGRAM'],
+                    ['Food Pantry', 'Food Bank', 'Soup Kitchen', 'Multi-Service'],
+                    true,
+                    false
                 ]
-              : ['==', ['get', 'PROGRAM'], selectedProgram];
-  
-          // Apply both filters
-          map.setFilter('food_data', ['all', dayTimeFilter, programFilter]);
-      } else {
-          // Show all features if not all three filters are selected
-          map.setFilter('food_data', ['all']);
-      }
-  
-      if (foodProg) updateLayers();
-  }
-  
-  //event listener for closing popup 
-  document.querySelector('.close-btn').addEventListener('click', function() {
-    document.getElementById('popup').style.display = 'none';
-  });  
-  
-  // Program type filter event listeners
-  document.querySelectorAll('.program-option').forEach(item => {
-      item.addEventListener('click', (e) => {
-          e.preventDefault();
-          selectedProgram = e.target.dataset.program;
-  
-          document.querySelectorAll('.program-option').forEach(opt => opt.classList.remove('active'));
-          e.target.classList.add('active');
-  
-          updateFilters();
-      });
-  });
-  
+              ]
+            : ['==', ['get', 'PROGRAM'], selectedProgram];
+
+        // Apply both filters
+        map.setFilter('food_data', ['all', dayTimeFilter, programFilter]);
+    } else {
+        // Show all features if not all three filters are selected
+        map.setFilter('food_data', ['all']);
+    }
+
+    if (foodProg) updateLayers();
+}
+
+//event listener for closing popup 
+document.querySelector('.close-btn').addEventListener('click', function() {
+  document.getElementById('popup').style.display = 'none';
+});  
+
+// Program type filter event listeners
+document.querySelectorAll('.program-option').forEach(item => {
+    item.addEventListener('click', (e) => {
+        e.preventDefault();
+        selectedProgram = e.target.dataset.program;
+
+        document.querySelectorAll('.program-option').forEach(opt => opt.classList.remove('active'));
+        e.target.classList.add('active');
+
+        updateFilters();
+    });
+});
+
 // Day filter event listener
 document.querySelectorAll('.day-option').forEach(item => {
-  item.addEventListener('click', (e) => {
-      e.preventDefault();
-      selectedDay = e.target.dataset.day;
-      console.log('Day selected:', selectedDay); // Debug log
-      document.querySelectorAll('.day-option').forEach(opt => opt.classList.remove('active'));
-      e.target.classList.add('active');
-      updateFilters();
-  });
+item.addEventListener('click', (e) => {
+    e.preventDefault();
+    selectedDay = e.target.dataset.day;
+    console.log('Day selected:', selectedDay); // Debug log
+    document.querySelectorAll('.day-option').forEach(opt => opt.classList.remove('active'));
+    e.target.classList.add('active');
+    updateFilters();
+});
 });
 
 // Time filter event listener 
 document.querySelectorAll('.time-option').forEach(item => {
-  item.addEventListener('click', (e) => {
-      e.preventDefault();
-      selectedTime = e.target.dataset.time;
-      console.log('Time selected:', selectedTime); // Debug log
-      document.querySelectorAll('.time-option').forEach(opt => opt.classList.remove('active'));
-      e.target.classList.add('active');
-      updateFilters();
-  });
+item.addEventListener('click', (e) => {
+    e.preventDefault();
+    selectedTime = e.target.dataset.time;
+    console.log('Time selected:', selectedTime); // Debug log
+    document.querySelectorAll('.time-option').forEach(opt => opt.classList.remove('active'));
+    e.target.classList.add('active');
+    updateFilters();
+});
 });
 
 // Program filter event listener
 document.querySelectorAll('.program-option').forEach(item => {
-  item.addEventListener('click', (e) => {
-      e.preventDefault();
-      selectedProgram = e.target.dataset.program;
-      console.log('Program selected:', selectedProgram); // Debug log
-      document.querySelectorAll('.program-option').forEach(opt => opt.classList.remove('active'));
-      e.target.classList.add('active');
-      updateFilters();
-  });
+item.addEventListener('click', (e) => {
+    e.preventDefault();
+    selectedProgram = e.target.dataset.program;
+    console.log('Program selected:', selectedProgram); // Debug log
+    document.querySelectorAll('.program-option').forEach(opt => opt.classList.remove('active'));
+    e.target.classList.add('active');
+    updateFilters();
+});
 });
 
   document.getElementById('reset-filters').addEventListener('click', () => {
@@ -208,8 +210,9 @@ document.querySelectorAll('.program-option').forEach(item => {
 
     map.setFilter('food_data', ['all']);
 
-    document.getElementById('walk_pt').checked = false;
+    document.getElementById('walk').checked = true;
     document.getElementById('walk').disabled = true;
+    document.getElementById('walk_pt').checked = false;
     document.getElementById('walk_pt').disabled = true;
 
     map.flyTo({
@@ -238,19 +241,20 @@ document.querySelectorAll('.program-option').forEach(item => {
   map.on('click', 'food_data', (e) => {
     const coordinates = e.features[0].geometry.coordinates.slice();
     const programName = e.features[0].properties.NAME || "Unknown Name";
-    const programAddress = e.features[0].properties.ADRESS || "Unknown Address";
+    const programAddress = e.features[0].properties.ADDRESS || "Unknown Address";
     const programWebsite = e.features[0].properties.WEBSITE || "No Available Website";
     const programPhone = e.features[0].properties.PHONE || "No Known Phone Number";
     const programHours = e.features[0].properties.HOURS || "Unknown Hours";
-
 
     map.flyTo({
       center: coordinates,
       zoom: 11,
       essential: true
     });
+
     //show legend row 
     document.getElementById('legend-row').style.display = 'block';
+
     //info container data 
     foodProg = e.features[0].properties.OBJECTID.toString();
     console.log('foodProg set to:', foodProg);
@@ -263,6 +267,7 @@ document.querySelectorAll('.program-option').forEach(item => {
     document.getElementById('program-address').textContent = programAddress;
     document.getElementById('program-phone').textContent = programPhone;
     document.getElementById('program-hours').textContent = programHours;
+
     // get website URL 
     const websiteElement = document.getElementById('program-website');
     if (programWebsite) {
@@ -271,7 +276,6 @@ document.querySelectorAll('.program-option').forEach(item => {
         websiteElement.textContent = "No website available";
     }
     document.getElementById('program-website').innerHTML = programWebsite ? `<a href="${programWebsite}" target="_blank">${programWebsite}</a>` : "No website available";
-
 
     initCheckboxListeners();
 
@@ -290,7 +294,7 @@ document.querySelectorAll('.program-option').forEach(item => {
     });
 
     document.getElementById('walk_pt').addEventListener('change', function () {
-      console.log('Walk + PT checkbox toggled:', this.checked);
+      console.log('PT checkbox toggled:', this.checked);
       if (this.checked) {
         document.getElementById('walk').checked = false; // Disable the other checkbox
       } else {
