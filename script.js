@@ -113,11 +113,10 @@ document.addEventListener('DOMContentLoaded', function () {
  function updateFilters() {
     console.log('Updating filters with day:', selectedDay, 'time:', selectedTime, 'program:', selectedProgram);
 
-    // Start with a base filter (initially empty)
-    let filter = ['all'];
-
-    // Apply day/time filter if both are selected
-    if (selectedDay && selectedTime) {
+    let filter = ['all']; // Start with an 'all' filter
+    
+    // Only apply filters when ALL THREE are selected
+    if (selectedDay && selectedTime && selectedProgram) {
         const timeIndex = { morning: 0, afternoon: 1, evening: 2 }[selectedTime];
         const dayTimeFilter = [
             '==',
@@ -125,12 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
             1
         ];
         filter.push(dayTimeFilter);
-    }
-
-    // Apply program filter ONLY if:
-    // 1. A program is selected, AND
-    // 2. It's NOT "Show All"
-    if (selectedProgram && selectedProgram !== "Show All") {
+    
         const programFilter = selectedProgram === "Other" 
             ? [
                 '!',
@@ -157,19 +151,6 @@ document.querySelector('.close-btn').addEventListener('click', function() {
   document.getElementById('popup').style.display = 'none';
 });  
 
-// Program type filter event listeners
-document.querySelectorAll('.program-option').forEach(item => {
-    item.addEventListener('click', (e) => {
-        e.preventDefault();
-        selectedProgram = e.target.dataset.program;
-
-        document.querySelectorAll('.program-option').forEach(opt => opt.classList.remove('active'));
-        e.target.classList.add('active');
-
-        updateFilters();
-    });
-});
-
 // Day filter event listener
 document.querySelectorAll('.day-option').forEach(item => {
 item.addEventListener('click', (e) => {
@@ -194,6 +175,7 @@ item.addEventListener('click', (e) => {
 });
 });
 
+
 // Program filter event listener
 document.querySelectorAll('.program-option').forEach(item => {
 item.addEventListener('click', (e) => {
@@ -210,6 +192,11 @@ item.addEventListener('click', (e) => {
     selectedDay = null;
     selectedTime = null;
     selectedProgram = null;
+
+    // Reset dropdown button text
+    document.getElementById('day-dropdown').textContent = 'Select a Day';
+    document.getElementById('time-dropdown').textContent = 'Select a Time';
+    document.getElementById('program-dropdown').textContent = 'Type of Program';
 
     document.querySelectorAll('.day-option, .time-option, .program-option').forEach(opt => opt.classList.remove('active'));
 
@@ -238,7 +225,115 @@ item.addEventListener('click', (e) => {
     document.getElementById('program-hours').textContent = "";
     document.getElementById('program-website').textContent="";
     
+    updateTimeIndicator(); // Update the time indicator to reflect no filters
   });
+
+  function showTotalWalk() {
+    selectedDay = null;
+    selectedTime = null;
+    selectedProgram = null;
+
+    // Reset dropdown button text
+    document.getElementById('day-dropdown').textContent = 'Select a Day';
+    document.getElementById('time-dropdown').textContent = 'Select a Time';
+    document.getElementById('program-dropdown').textContent = 'Type of Program';
+
+    document.querySelectorAll('.day-option, .time-option, .program-option').forEach(opt => opt.classList.remove('active'));
+
+    map.setFilter('food_data', ['all']);
+
+    document.getElementById('walk').checked = false;
+    document.getElementById('walk').disabled = true;
+    document.getElementById('walk_pt').checked = false;
+    document.getElementById('walk_pt').disabled = true;
+
+    map.flyTo({
+      center: [-79.7018518888638, 43.668552107715904],
+      zoom: 9,
+      essential: true
+    });
+
+    map.setLayoutProperty('pt_data', 'visibility', 'none');
+
+    document.getElementById('pt_legend').style.display = 'none';
+    document.getElementById('program-name').textContent = "Select a program";
+    document.getElementById('program-address').textContent = "";
+    document.getElementById('program-phone').textContent = "";
+    document.getElementById('program-hours').textContent = "";
+    document.getElementById('program-website').textContent="";
+    
+    updateTimeIndicator();
+
+    map.setLayoutProperty('walk_data', 'visibility', 'visible');
+    map.setPaintProperty('walk_data', 'fill-color', [
+      'case',
+      ['==', ['get', 'lowest_travel'], null], 'rgba(0,0,0,0)',
+      ['step', ['to-number', ['get', 'lowest_travel']],
+        '#063b00', 10,
+        '#089000', 20,
+        '#0eff00', 30,
+        'rgba(0,0,0,0)'
+      ]
+    ]);
+    document.getElementById('walk_legend').style.display = 'block';
+
+  };
+
+  document.getElementById('show-all-walk').addEventListener('click', showTotalWalk);
+
+  function showTotalPT() {
+    selectedDay = null;
+    selectedTime = null;
+    selectedProgram = null;
+
+    // Reset dropdown button text
+    document.getElementById('day-dropdown').textContent = 'Select a Day';
+    document.getElementById('time-dropdown').textContent = 'Select a Time';
+    document.getElementById('program-dropdown').textContent = 'Type of Program';
+
+    document.querySelectorAll('.day-option, .time-option, .program-option').forEach(opt => opt.classList.remove('active'));
+
+    map.setFilter('food_data', ['all']);
+
+    document.getElementById('walk').checked = false;
+    document.getElementById('walk').disabled = true;
+    document.getElementById('walk_pt').checked = false;
+    document.getElementById('walk_pt').disabled = true;
+
+    map.flyTo({
+      center: [-79.7018518888638, 43.668552107715904],
+      zoom: 9,
+      essential: true
+    });
+
+    map.setLayoutProperty('walk_data', 'visibility', 'none');
+
+    document.getElementById('walk_legend').style.display = 'none';
+    document.getElementById('program-name').textContent = "Select a program";
+    document.getElementById('program-address').textContent = "";
+    document.getElementById('program-phone').textContent = "";
+    document.getElementById('program-hours').textContent = "";
+    document.getElementById('program-website').textContent="";
+    
+    updateTimeIndicator();
+
+    map.setLayoutProperty('pt_data', 'visibility', 'visible');
+    map.setPaintProperty('pt_data', 'fill-color', [
+      'case',
+      ['==', ['get', 'lowest_travel'], null], 'rgba(0,0,0,0)',
+      ['step', ['to-number', ['get', 'lowest_travel']],
+      '#4c00a4', 10,
+      '#00bbd1', 20,
+      '#00fff3', 30,
+        'rgba(0,0,0,0)'
+      ]
+    ]);
+    
+    document.getElementById('pt_legend').style.display = 'block';
+
+  };
+
+  document.getElementById('show-all-pt').addEventListener('click', showTotalPT);
 
   //-------------------------------------------------------------------------------------------------------------------------
 
@@ -423,25 +518,8 @@ document.querySelectorAll('.program-option').forEach(option => {
     });
 });
 
-// Reset filters button
-document.getElementById('reset-filters').addEventListener('click', function() {
-    // Reset selected values
-    selectedDay = null;
-    selectedTime = null;
-    selectedProgram = null;
-    
-    // Reset dropdown button text
-    document.getElementById('day-dropdown').textContent = 'Select a Day';
-    document.getElementById('time-dropdown').textContent = 'Select a Time';
-    document.getElementById('program-dropdown').textContent = 'Type of Program';
-    
-    // Update the time indicator
-    updateTimeIndicator();
-});
-
 // Initialize the time indicator
 updateTimeIndicator();
   
 
-}
-);
+});

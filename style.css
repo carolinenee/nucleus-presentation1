@@ -1,3 +1,7 @@
+body {
+  overflow-x: hidden;
+}
+
 #header-id {
   padding: 1%;
   /* Adds 5% padding around the container */
@@ -168,13 +172,18 @@
   font-size: 15px; 
 }
 
+#show-all-pt, #show-all-walk {
+  font-size: 12px;
+  margin: 5px;
+}
+
 /* Style for the reset button */
 #reset-filters {
   margin-top: 15px;
   margin-bottom:15px;
   margin-left: 5px;
   padding: 10px;
-  background-color: #ffcccc;
+  background-color: #f70606;
   border: 1px solid #ff9999;
   cursor: pointer;
 }
