@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     //ouline box for peel region 
     const peelBbox = [-80.2, 43.4, -79.1, 44.2];
-    
+
     // Add the geocoder to the map
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
@@ -104,94 +104,94 @@ document.addEventListener('DOMContentLoaded', function () {
       console.log('Selected location:', e.result);
     });
   });
-  
+
   //innitially no selections for day, time or food program 
   let selectedDay = null;
   let selectedTime = null;
   let selectedProgram = null;
   let foodProg = null;
-  
+
   // Updates map filters based on user selections but only applies filters when all three selections are made.
- function updateFilters() {
+  function updateFilters() {
     console.log('Updating filters with day:', selectedDay, 'time:', selectedTime, 'program:', selectedProgram);
 
     let filter = ['all']; // Start with an 'all' filter
-    
+
     // Only apply filters when ALL THREE are selected
     if (selectedDay && selectedTime && selectedProgram) {
-        const timeIndex = { morning: 0, afternoon: 1, evening: 2 }[selectedTime];
-        const dayTimeFilter = [
-            '==',
-            ['at', timeIndex, ['coalesce', ['get', selectedDay], ['literal', [0, 0, 0]]]],
-            1
-        ];
-        filter.push(dayTimeFilter);
-    
-        const programFilter = selectedProgram === "Other" 
-            ? [
-                '!',
-                ['match',
-                    ['downcase', ['get', 'LEGEND']], // Case-insensitive check
-                    ['food pantry', 'food bank', 'community meal program (soup kitchen)', 'multi-service program'],
-                    true,
-                    false
-                ]
-              ]
-            : ['==', ['downcase', ['get', 'LEGEND']], selectedProgram.toLowerCase()];
-        
-        filter.push(programFilter);
+      const timeIndex = { morning: 0, afternoon: 1, evening: 2 }[selectedTime];
+      const dayTimeFilter = [
+        '==',
+        ['at', timeIndex, ['coalesce', ['get', selectedDay], ['literal', [0, 0, 0]]]],
+        1
+      ];
+      filter.push(dayTimeFilter);
+
+      const programFilter = selectedProgram === "Other"
+        ? [
+          '!',
+          ['match',
+            ['downcase', ['get', 'LEGEND']], // Case-insensitive check
+            ['food pantry', 'food bank', 'community meal program (soup kitchen)', 'multi-service program'],
+            true,
+            false
+          ]
+        ]
+        : ['==', ['downcase', ['get', 'LEGEND']], selectedProgram.toLowerCase()];
+
+      filter.push(programFilter);
     }
 
     // Apply the final filter
     map.setFilter('food_data', filter);
 
     if (foodProg) updateLayers();
-}
+  }
 
-//event listener for closing popup 
-document.querySelector('.close-btn').addEventListener('click', function() {
-  document.getElementById('popup').style.display = 'none';
-});  
+  //event listener for closing popup 
+  document.querySelector('.close-btn').addEventListener('click', function () {
+    document.getElementById('popup').style.display = 'none';
+  });
 
-// Day filter event listener
-document.querySelectorAll('.day-option').forEach(item => {
-item.addEventListener('click', (e) => {
-    e.preventDefault();
-    selectedDay = e.target.dataset.day;
-    console.log('Day selected:', selectedDay); // Debug log
-    document.querySelectorAll('.day-option').forEach(opt => opt.classList.remove('active'));
-    e.target.classList.add('active');
-    updateFilters();
-});
-});
+  // Day filter event listener
+  document.querySelectorAll('.day-option').forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      selectedDay = e.target.dataset.day;
+      console.log('Day selected:', selectedDay); // Debug log
+      document.querySelectorAll('.day-option').forEach(opt => opt.classList.remove('active'));
+      e.target.classList.add('active');
+      updateFilters();
+    });
+  });
 
-// Time filter event listener 
-document.querySelectorAll('.time-option').forEach(item => {
-item.addEventListener('click', (e) => {
-    e.preventDefault();
-    selectedTime = e.target.dataset.time;
-    console.log('Time selected:', selectedTime); // Debug log
-    document.querySelectorAll('.time-option').forEach(opt => opt.classList.remove('active'));
-    e.target.classList.add('active');
-    updateFilters();
-});
-});
+  // Time filter event listener 
+  document.querySelectorAll('.time-option').forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      selectedTime = e.target.dataset.time;
+      console.log('Time selected:', selectedTime); // Debug log
+      document.querySelectorAll('.time-option').forEach(opt => opt.classList.remove('active'));
+      e.target.classList.add('active');
+      updateFilters();
+    });
+  });
 
 
-// Program filter event listener
-document.querySelectorAll('.program-option').forEach(item => {
-item.addEventListener('click', (e) => {
-    e.preventDefault();
-    selectedProgram = e.target.dataset.program;
-    console.log('Program selected:', selectedProgram); // Debug log
-    document.querySelectorAll('.program-option').forEach(opt => opt.classList.remove('active'));
-    e.target.classList.add('active');
-    updateFilters();
-});
+  // Program filter event listener
+  document.querySelectorAll('.program-option').forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      selectedProgram = e.target.dataset.program;
+      console.log('Program selected:', selectedProgram); // Debug log
+      document.querySelectorAll('.program-option').forEach(opt => opt.classList.remove('active'));
+      e.target.classList.add('active');
+      updateFilters();
+    });
 
-});
+  });
 
-// everything the page needs to do to reset (filters, innitial map view, remove program details content and legend)
+  // everything the page needs to do to reset (filters, innitial map view, remove program details content and legend)
   document.getElementById('reset-filters').addEventListener('click', () => {
     // unselect day time and program for filtering
     selectedDay = null;
@@ -230,45 +230,51 @@ item.addEventListener('click', (e) => {
     document.getElementById('program-address').textContent = "";
     document.getElementById('program-phone').textContent = "";
     document.getElementById('program-hours').textContent = "";
-    document.getElementById('program-website').textContent="";
+    document.getElementById('program-website').textContent = "";
   });
 
+  //the function for the button that shows the walking network analysis for all the food programs
   function showTotalWalk() {
     selectedDay = null;
     selectedTime = null;
     selectedProgram = null;
 
-    // Reset dropdown button text
+    // Resets dropdown button text
     document.getElementById('day-dropdown').textContent = 'Select a Day';
     document.getElementById('time-dropdown').textContent = 'Select a Time';
     document.getElementById('program-dropdown').textContent = 'Type of Program';
 
+    //Removes all the previous filters
     document.querySelectorAll('.day-option, .time-option, .program-option').forEach(opt => opt.classList.remove('active'));
 
+    // Resets point data filter
     map.setFilter('food_data', ['all']);
 
+    // Disables the Walk/Public Transit filters used for a single location
     document.getElementById('walk').checked = false;
     document.getElementById('walk').disabled = true;
     document.getElementById('walk_pt').checked = false;
     document.getElementById('walk_pt').disabled = true;
 
+    // Resets the zoom and positioning of the map to the initial view
     map.flyTo({
       center: [-79.7018518888638, 43.668552107715904],
       zoom: 9,
       essential: true
     });
 
+    //disables public transit hexgrid visibility
     map.setLayoutProperty('pt_data', 'visibility', 'none');
 
+    //resets the program bio information
     document.getElementById('pt_legend').style.display = 'none';
     document.getElementById('program-name').textContent = "Select a program";
     document.getElementById('program-address').textContent = "";
     document.getElementById('program-phone').textContent = "";
     document.getElementById('program-hours').textContent = "";
-    document.getElementById('program-website').textContent="";
-    
-    updateTimeIndicator();
+    document.getElementById('program-website').textContent = "";
 
+    //turns on all the walk network analyses for all locations
     map.setLayoutProperty('walk_data', 'visibility', 'visible');
     map.setPaintProperty('walk_data', 'fill-color', [
       'case',
@@ -280,12 +286,13 @@ item.addEventListener('click', (e) => {
         'rgba(0,0,0,0)'
       ]
     ]);
-    document.getElementById('walk_legend').style.display = 'block';
+    document.getElementById('walk_legend').style.display = 'block'; //enables the legend
 
   };
 
-  document.getElementById('show-all-walk').addEventListener('click', showTotalWalk);
+  document.getElementById('show-all-walk').addEventListener('click', showTotalWalk); //encoding the event listener that shows all walking hexgrids once the user clicks on the button
 
+  //the function for the button that shows the public transit network analysis for all the food programs
   function showTotalPT() {
     selectedDay = null;
     selectedTime = null;
@@ -296,49 +303,54 @@ item.addEventListener('click', (e) => {
     document.getElementById('time-dropdown').textContent = 'Select a Time';
     document.getElementById('program-dropdown').textContent = 'Type of Program';
 
+    //Removes all the previous filters
     document.querySelectorAll('.day-option, .time-option, .program-option').forEach(opt => opt.classList.remove('active'));
 
+    // Resets point data filter
     map.setFilter('food_data', ['all']);
 
+    // Disables the Walk/Public Transit filters used for a single location
     document.getElementById('walk').checked = false;
     document.getElementById('walk').disabled = true;
     document.getElementById('walk_pt').checked = false;
     document.getElementById('walk_pt').disabled = true;
 
+    // Resets the zoom and positioning of the map to the initial view
     map.flyTo({
       center: [-79.7018518888638, 43.668552107715904],
       zoom: 9,
       essential: true
     });
 
+    //disables walking hexgrid visibility
     map.setLayoutProperty('walk_data', 'visibility', 'none');
 
+    //resets the program bio information
     document.getElementById('walk_legend').style.display = 'none';
     document.getElementById('program-name').textContent = "Select a program";
     document.getElementById('program-address').textContent = "";
     document.getElementById('program-phone').textContent = "";
     document.getElementById('program-hours').textContent = "";
-    document.getElementById('program-website').textContent="";
-    
-    updateTimeIndicator();
+    document.getElementById('program-website').textContent = "";
 
+    //turns on all the public transit network analyses for all locations
     map.setLayoutProperty('pt_data', 'visibility', 'visible');
     map.setPaintProperty('pt_data', 'fill-color', [
       'case',
       ['==', ['get', 'lowest_travel'], null], 'rgba(0,0,0,0)',
       ['step', ['to-number', ['get', 'lowest_travel']],
-      '#4c00a4', 10,
-      '#00bbd1', 20,
-      '#00fff3', 30,
+        '#4c00a4', 10,
+        '#00bbd1', 20,
+        '#00fff3', 30,
         'rgba(0,0,0,0)'
       ]
     ]);
-    
-    document.getElementById('pt_legend').style.display = 'block';
+
+    document.getElementById('pt_legend').style.display = 'block'; //enables the legend
 
   };
 
-  document.getElementById('show-all-pt').addEventListener('click', showTotalPT);
+  document.getElementById('show-all-pt').addEventListener('click', showTotalPT); //encoding the event listener that shows all walking hexgrids once the user clicks on the button
 
   //-------------------------------------------------------------------------------------------------------------------------
 
@@ -376,9 +388,9 @@ item.addEventListener('click', (e) => {
     // get website URL 
     const websiteElement = document.getElementById('program-website');
     if (programWebsite) {
-        websiteElement.innerHTML = `<a href="${programWebsite}" target="_blank">${programWebsite}</a>`;
+      websiteElement.innerHTML = `<a href="${programWebsite}" target="_blank">${programWebsite}</a>`;
     } else {
-        websiteElement.textContent = "No website available";
+      websiteElement.textContent = "No website available";
     }
     document.getElementById('program-website').innerHTML = programWebsite ? `<a href="${programWebsite}" target="_blank">${programWebsite}</a>` : "No website available";
 
@@ -409,6 +421,7 @@ item.addEventListener('click', (e) => {
     });
   };
 
+  //A function to update layer visibility based on the user choice (walking/public transit filter)
   function updateLayers() {
     if (!foodProg) return;
 
@@ -416,17 +429,17 @@ item.addEventListener('click', (e) => {
       filterWalkPolygons(foodProg);
       map.setLayoutProperty('pt_data', 'visibility', 'none');
       document.getElementById('walk_legend').style.display = 'block';
-      document.getElementById('pt_legend').style.display = 'none';
+      document.getElementById('pt_legend').style.display = 'none'; //this statement disables the public transit layer and legend and turns on the legend on the walking hexgrids if the user chooses to enable the walking data
     } else if (document.getElementById('walk_pt').checked) {
       filterPTPolygons(foodProg);
       map.setLayoutProperty('walk_data', 'visibility', 'none');
       document.getElementById('walk_legend').style.display = 'none';
-      document.getElementById('pt_legend').style.display = 'block';
+      document.getElementById('pt_legend').style.display = 'block'; //this statement disables the walking hexgrids and its legend and enables the public transit data and legend if the user chooses to enable the walking data
     } else {
       map.setLayoutProperty('walk_data', 'visibility', 'none');
       map.setLayoutProperty('pt_data', 'visibility', 'none');
       document.getElementById('walk_legend').style.display = 'none';
-      document.getElementById('pt_legend').style.display = 'none';
+      document.getElementById('pt_legend').style.display = 'none'; //If neither of the options are chosen (e.g., the filters are reset), then both layers are disabled
     }
 
   }
@@ -447,6 +460,7 @@ item.addEventListener('click', (e) => {
     ]);
   }
 
+  //this function shows the hexgrid on public transit for an individual food program based on the filters
   function filterPTPolygons(foodProg) {
 
     concatProg = foodProg + '_' + selectedDay + selectedTime;
@@ -464,67 +478,33 @@ item.addEventListener('click', (e) => {
       ]
     ]);
   }
-  //time indicator stuff 
-  function updateTimeIndicator() {
-    const timeIndicator = document.getElementById('time-indicator');
-    
-    // Create parts of the message based on selections
-    const dayPart = selectedDay ? selectedDay.charAt(0).toUpperCase() + selectedDay.slice(1) : "";
-    const timePart = selectedTime ? selectedTime.charAt(0).toUpperCase() + selectedTime.slice(1) : "";
-    const programPart = selectedProgram || "";
-    
-    // Build the full message
-    let message = "";
-    
-    if (dayPart || timePart || programPart) {
-        message = "Showing: ";
-        
-        const parts = [];
-        if (dayPart) parts.push(dayPart);
-        if (timePart) parts.push(timePart);
-        if (programPart) parts.push(programPart);
-        
-        message += parts.join(" • ");
-    } else {
-        message = "No filters selected";
-    }
-    
-    // Update the element
-    timeIndicator.textContent = message;
-}
 
-// Event listeners for day options
-document.querySelectorAll('.day-option').forEach(option => {
-    option.addEventListener('click', function(e) {
-        e.preventDefault();
-        selectedDay = this.getAttribute('data-day');
-        document.getElementById('day-dropdown').textContent = this.textContent;
-        updateTimeIndicator();
+  // Event listeners for day options
+  document.querySelectorAll('.day-option').forEach(option => {
+    option.addEventListener('click', function (e) {
+      e.preventDefault();
+      selectedDay = this.getAttribute('data-day');
+      document.getElementById('day-dropdown').textContent = this.textContent;
     });
-});
+  });
 
-// Event listeners for time options
-document.querySelectorAll('.time-option').forEach(option => {
-    option.addEventListener('click', function(e) {
-        e.preventDefault();
-        selectedTime = this.getAttribute('data-time');
-        document.getElementById('time-dropdown').textContent = this.textContent;
-        updateTimeIndicator();
+  // Event listeners for time options
+  document.querySelectorAll('.time-option').forEach(option => {
+    option.addEventListener('click', function (e) {
+      e.preventDefault();
+      selectedTime = this.getAttribute('data-time');
+      document.getElementById('time-dropdown').textContent = this.textContent;
     });
-});
+  });
 
-// Event listeners for program options
-document.querySelectorAll('.program-option').forEach(option => {
-    option.addEventListener('click', function(e) {
-        e.preventDefault();
-        selectedProgram = this.getAttribute('data-program');
-        document.getElementById('program-dropdown').textContent = this.textContent;
-        updateTimeIndicator();
+  // Event listeners for program options
+  document.querySelectorAll('.program-option').forEach(option => {
+    option.addEventListener('click', function (e) {
+      e.preventDefault();
+      selectedProgram = this.getAttribute('data-program');
+      document.getElementById('program-dropdown').textContent = this.textContent;
     });
-});
+  });
 
-// Initialize the time indicator
-updateTimeIndicator();
-  
 
 });
