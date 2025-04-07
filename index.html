@@ -17,33 +17,25 @@
         type='text/css' />
     <!-- nucleus font  -->
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-    <style>
-        body {
-            font-family: 'Montserrat';
-            font-size: 22px;
-        }
-    </style>
 </head>
 
 <body>
-    <div class="container-fluid" id="header-id">
-        <div class="row align-items-center">
-            <div class="col text-start">
-                <h1 class="fs-4" id="title">Food Programs in Peel Region</h1>
-            </div>
-            <div class="col text-end">
-                <h2 class="fs-6" id="time-indicator"></h2>
-            </div>
+    <div class="container-fluid" id="header-id"> <!-- header grows to fit full page -->
+        <div>
+            <h1 class="fs-4" id="title">Food Programs in Peel Region</h1>
         </div>
     </div>
-    <div class="container-fluid2">
+    <div class="container-fluid2"> <!-- rest of content also adjusts to fit page -->
         <div class="row">
-            <div class="col" id="filters-col">
-                <div class="dropdown">
+            <div class="col" id="filters-col"> <!-- filters are in their own column, first on the left -->
+
+                <div class="dropdown"> <!-- one class for all dropdowns so we can do simultaneous styling -->
+                    <!-- characteristics of button to select day -->
                     <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="day-dropdown"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         Select a Day
                     </button>
+                    <!-- options that the user can select for day -->
                     <ul class="dropdown-menu" aria-labelledby="day-dropdown">
                         <li><a class="dropdown-item day-option" href="#" data-day="monday">Monday</a></li>
                         <li><a class="dropdown-item day-option" href="#" data-day="tuesday">Tuesday</a></li>
@@ -56,10 +48,12 @@
                 </div>
                 <!-- Time Filters Dropdown -->
                 <div class="dropdown">
+                    <!-- characteristics of button to select time-->
                     <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="time-dropdown"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         Select a Time
                     </button>
+                    <!-- options that the user can select for time  -->
                     <ul class="dropdown-menu" aria-labelledby="time-dropdown">
                         <li><a class="dropdown-item time-option" href="#" data-time="morning">Morning</a></li>
                         <li><a class="dropdown-item time-option" href="#" data-time="afternoon">Afternoon</a></li>
@@ -68,29 +62,29 @@
                 </div>
 
                 <div class="dropdown">
+                    <!-- characteristics of button to select program type -->
                     <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="program-dropdown"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         Type of Program
                     </button>
+                    <!-- options that user can select for food type -->
                     <ul class="dropdown-menu" aria-labelledby="program-dropdown">
                         <li><a class="dropdown-item program-option" href="#" data-program="Food pantry">Food Pantry</a>
                         </li>
                         <li><a class="dropdown-item program-option" href="#" data-program="Food bank">Food Bank</a></li>
-                        <li><a class="dropdown-item program-option" href="#"
-                                data-program="Community Meal Program (Soup Kitchen)">Soup
-                                Kitchen</a></li>
-                        <li><a class="dropdown-item program-option" href="#"
-                                data-program="Multi-Service Program">Multi-Service Program</a></li>
+                        <li><a class="dropdown-item program-option" href="#" data-program="Community Meal Program (Soup Kitchen)">Soup Kitchen</a></li>
+                        <li><a class="dropdown-item program-option" href="#" data-program="Multi-Service Program">Multi-Service Program</a></li>
                         <li><a class="dropdown-item program-option" href="#" data-program="Other">Other</a></li>
-                        <!--<li><a class="dropdown-item program-option" href="#" data-program="Show All">Show All</a></li>-->
+                        <!-- <li><a class="dropdown-item program-option" href="#" data-program="Show All">Show All</a></li> -->
                     </ul>
                 </div>
 
-                <!-- Reset Filters -->
+                <!-- Button to Filters -->
                 <div class="reset-btn">
                     <button id="reset-filters" class="btn btn-danger">Reset Filters</button>
                 </div>
 
+                <!-- Checkboxes for transportation type (walking, public transit) -->
                 <div id="network-toshow" class='col-1 ps-2'>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="walk" disabled>
@@ -105,37 +99,41 @@
                         </label>
                     </div>
                 </div>
-
+                
+                <!-- Button that shows total coverage of foodbanks accessible by walking -->
                 <div class="show-all-btn mt-2">
                     <button id="show-all-walk" class="btn btn-secondary">Total Coverage Area <br> (Walk)</button>
                 </div>
-
+                <!-- Button that shows total coverage of foodbanks accessible with public transit/walking -->
                 <div class="show-all-btn">
                     <button id="show-all-pt" class="btn btn-secondary">Total Coverage Area <br> (Public
                         Transit)</button>
                 </div>
 
             </div>
+            <!-- second column with map which always takes up 9 out of 12 of bootstraps columns regardless of screen size -->
             <div class="col-9">
                 <div id="my-map" class="map-container"></div>
             </div>
+            <!-- third column with program details and legend -->
             <div class="col" id="details-col">
+                <!-- first row in 3rd column shows the program details  -->
                 <div class="row" id="program-row">
-                    <!-- Food Program Details Container -->
+                    <!-- innitially, the values are blank and the box guides user to select a program  -->
                     <div id="food-program-details" class="info-container">
                         <h2>Program Details</h2>
-                        <p><strong>Name:</strong> <span id="program-name">Click a location to see details</span></p>
+                        <p><strong>Name:</strong> <span id="program-name">Select a Program</span></p>
                         <p><strong>Address:</strong> <span id="program-address">-</span></p>
                         <p><strong>Website:</strong> <span id="program-website">-</span></p>
                         <p><strong>Phone:</strong> <span id="program-phone">-</span></p>
                         <p><strong>Open Hours:</strong> <span id="program-hours">-</span></p>
                     </div>
-
                 </div>
+                <!-- second row in 3rd column will adjust position to be below program details based on it's size  -->
                 <div class="row" id="legend-row">
-                    <!-- Legends for Walk and Public Transit Networks -->
+                    <!-- Legends for Walk and Public Transit Networks which will fill content when user enables a hexgrid-->
                     <div id="walk_legend" class="legend">
-                        <h6>Time Taken on Walk Journeys</h6>
+                        <h6>Time Required to Walk</h6>
                         <div><span></span>10 minutes and less</div>
                         <div><span></span>11 - 20 minutes</div>
                         <div><span></span>21 - 30 minutes</div>
@@ -152,25 +150,27 @@
             </div>
         </div>
     </div>
+    <!-- popup when user opens the page to explain how to use the webmap  -->
     <div id="popup">
         <div class="popup-content">
-            <button class="close-btn">×</button>
+            <button class="close-btn">×</button>  <!-- class to that we can place button at top right and create event listened to close popup-->
             <h2>Food Programs of Peel Region</h2>
             <p>How to use this map:
             <ol>
-                <li>Select the <strong>day of the week</strong> </li>
+                <li>Select the <strong>day of the week</strong> </li> <!-- make important words bold with strong to help readability -->
                 <li>Select the <strong>time of day</strong></li>
                 <li>Choose the <strong>type of food program</strong> (e.g., Food bank, Soup kitchen)</li>
             </ol>
-            <p>Clicking a location reveals a <strong>location profile</strong> and the option to view <strong>network analysis results</strong> (walking or public transit).</p>
+            <p>Clicking a location reveals a <strong>location profile</strong> and the option to view <strong>network
+                    analysis results</strong> (walking or public transit).</p>
             <p>You can also explore the overall food program landscape through the "Total Coverage Area" </p>
             </p>
         </div>
     </div>
-
+    <!-- link to bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
         </script>
-    <script src="script.js"></script>
+    <script src="script.js"></script> <!-- link to our js file  -->
 
 </body>

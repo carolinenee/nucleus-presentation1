@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
 
+    //adding the peel region boundaries to the map 
     map.addSource('boundaries', {
       type: 'geojson',
       data: 'https://raw.githubusercontent.com/carolinenee/nucleus-presentation1/refs/heads/main/data/peel_bound.geojson'
@@ -70,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
       source: 'boundaries',
       paint: {
         'line-color': '#000000',
-        'line-width': 2
+        'line-width': 1
       }
     });
 
@@ -80,22 +81,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
     initCheckboxListeners();
 
-    //ouline box for approximately Ontario
-    const ontarioBbox = [-95.15625, 41.6766, -74.34375, 56.8594];
+    //ouline box for peel region 
+    const peelBbox = [-80.2, 43.4, -79.1, 44.2];
     
     // Add the geocoder to the map
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
       placeholder: 'Search for places or addresses',
-      bbox: ontarioBbox, // Restrict results to Ontario
+      bbox: peelBbox, // Restrict results to peel
       countries: 'ca' // Further restrict to Canada
     });
 
     // Add geocoder to the map
     map.addControl(
       geocoder,
-      'top-left' // Position og geocoder relative to map 
+      'top-right' // Position og geocoder relative to map 
     );
 
     // listen for geocoder result event
@@ -104,12 +105,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
   
+  //innitially no selections for day, time or food program 
   let selectedDay = null;
   let selectedTime = null;
   let selectedProgram = null;
   let foodProg = null;
   
-  // Function to update filters when checkboxes are clicked
+  // Updates map filters based on user selections but only applies filters when all three selections are made.
  function updateFilters() {
     console.log('Updating filters with day:', selectedDay, 'time:', selectedTime, 'program:', selectedProgram);
 
@@ -186,46 +188,49 @@ item.addEventListener('click', (e) => {
     e.target.classList.add('active');
     updateFilters();
 });
+
 });
 
+// everything the page needs to do to reset (filters, innitial map view, remove program details content and legend)
   document.getElementById('reset-filters').addEventListener('click', () => {
+    // unselect day time and program for filtering
     selectedDay = null;
     selectedTime = null;
     selectedProgram = null;
 
-    // Reset dropdown button text
+    // Reset the text on the dropdown buttons 
     document.getElementById('day-dropdown').textContent = 'Select a Day';
     document.getElementById('time-dropdown').textContent = 'Select a Time';
     document.getElementById('program-dropdown').textContent = 'Type of Program';
 
     document.querySelectorAll('.day-option, .time-option, .program-option').forEach(opt => opt.classList.remove('active'));
 
+    // show all food programs again (remove filtering)
     map.setFilter('food_data', ['all']);
 
+    // remove chekmarks for hexgrid selection
     document.getElementById('walk').checked = false;
     document.getElementById('walk').disabled = true;
     document.getElementById('walk_pt').checked = false;
     document.getElementById('walk_pt').disabled = true;
-
+    // go back to the maps innitial view 
     map.flyTo({
       center: [-79.7018518888638, 43.668552107715904],
       zoom: 9,
       essential: true
     });
-
+    // remove hexgrid 
     map.setLayoutProperty('walk_data', 'visibility', 'none');
     map.setLayoutProperty('pt_data', 'visibility', 'none');
 
     document.getElementById('walk_legend').style.display = 'none';
     document.getElementById('pt_legend').style.display = 'none';
-    // **Reset program details container**
+    // Reset program details container so that no location is selected
     document.getElementById('program-name').textContent = "Select a program";
     document.getElementById('program-address').textContent = "";
     document.getElementById('program-phone').textContent = "";
     document.getElementById('program-hours').textContent = "";
     document.getElementById('program-website').textContent="";
-    
-    updateTimeIndicator(); // Update the time indicator to reflect no filters
   });
 
   function showTotalWalk() {

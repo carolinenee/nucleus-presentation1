@@ -1,23 +1,31 @@
 body {
   overflow-x: hidden;
+  /* when the content in the right column doesn't fit given the fixed size of the map this will stop the columns from overlapping */
+  font-family: 'Montserrat';
+  /* use nucleus' font for content in the body */
+  font-size: 22px;
 }
 
+/* styling for the header */
 #header-id {
   padding: 1%;
-  /* Adds 5% padding around the container */
+  /* creates a small gap background and text */
   background-color: rgb(212, 212, 212);
   color: black;
+  /* text colour*/
   height: 7vh;
+  /* 7 % of the viewport height  */
   margin-bottom: 1vh;
+  /* creates a small gap between header and body */
 }
 
 #title {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 800;
+  font-weight: 700;
   /* Extra-bold */
 }
 
 #h1 {
+  /* everything in the HTML with h1 will be bold */
   font-weight: bold;
 }
 
@@ -28,7 +36,7 @@ body {
 
 .row {
   height: 100%;
-  /* Ensure the row fills the height */
+  /* Ensure the row fills the full height */
 }
 
 #my-map {
@@ -39,28 +47,38 @@ body {
   /* Cut off any parts outside the 9-column width */
 }
 
+/* styling for the filters colum  */
 #filters-col {
   background-color: rgb(212, 212, 212);
   margin-left: 1.5%;
   padding: 0.1%;
+  margin-bottom: 2vh;
+  width: fit-content;
 
 }
 
+
+/* styling for the details colum  */
 #details-col {
   margin-right: 1.5%;
   overflow-x: auto;
 }
 
 #program-row {
-  height: fit-content; /* Modern browsers */
-  min-height: fit-content; /* Alternative */
-  background-color:  rgb(212, 212, 212);
+  height: fit-content;
+  /* Modern browsers */
+  min-height: fit-content;
+  /* Alternative */
+  background-color: rgb(212, 212, 212);
   margin-top: 0;
-  margin-bottom: 1vh;
+  margin-bottom: 2vh;
+  /* creates a gap between the program details box and the legend box  */
 }
-#legend-row{
-  height: fit-content; /* Modern browsers */
-  min-height: fit-content; /* Alternative */
+
+#legend-row {
+  height: fit-content;
+  /* makes the box adapt size to fit the content  */
+  min-height: fit-content;
   background-color: rgb(212, 212, 212);
   margin-top: 0%;
   margin-bottom: 1.5%;
@@ -71,41 +89,50 @@ body {
 
 #food-program-details {
   height: fit-content;
+  /* makes the box adapt size vertically to fit the content */
   min-height: fit-content;
   background-color: rgb(212, 212, 212);
   margin-top: 0;
   margin-bottom: 1vh;
   padding-left: 2%;
   padding-top: 2%;
-  max-width: 100%; /* Ensure it doesn't exceed its parent width */
-  overflow-x: auto; 
+  max-width: 100%;
+  /* creates a slider when the content is bigger than the container */
+  overflow-x: auto;
 }
 
+/* styling for the title  */
 #food-program-details h2 {
-  font-size: 16px; /* Reduced from 16px */
+  font-size: 16px;
   margin-bottom: 5px;
-  font-weight: 600; /* Optional: make it slightly bolder for better readability at smaller size */
+  font-weight: 600;
+  /* makes the title bolder for better readability */
 }
 
+/* styling for the details text  */
 #food-program-details p {
   font-size: 14px;
   margin: 5px 0;
 }
 
 #food-program-details {
-  padding-left: 2%;
+  padding-left: 5%;
   padding-top: 2%;
 }
 
 .legend span {
   display: inline-block;
   width: 14px;
-  height: 12px; /* Height for a perfect hexagon with 10px width */
+  height: 12px;
+  /* Height for the hexagon */
   margin-right: 5px;
   position: relative;
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  /* changes the legend shape from circles to hexagons */
   -webkit-clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
 }
+
+/* colors for legend based on the hexgrid */
 
 #walk_legend div:nth-child(2) span {
   background-color: #063b00;
@@ -131,15 +158,17 @@ body {
   background-color: #00fff3;
 }
 
+/* styling for dropdown  buttons*/
 .dropdown-toggle {
   padding: 10px;
+  /* space between text and box */
   cursor: pointer;
-  /* Fixed width for the dropdown buttons */
   text-align: left;
   margin: 5px;
   /* Space between dropdown buttons */
 }
 
+/* makes dropdown box darker when you hover over it */
 .dropdown-toggle:hover {
   background-color: #ddd;
 }
@@ -168,11 +197,14 @@ body {
 .dropdown-item input[type="checkbox"] {
   margin-right: 10px;
 }
+
 #network-toshow .form-check-label {
-  font-size: 15px; 
+  font-size: 15px;
 }
 
-#show-all-pt, #show-all-walk {
+/* style for total coverage buttons*/
+#show-all-pt,
+#show-all-walk {
   font-size: 12px;
   margin: 5px;
 }
@@ -180,7 +212,7 @@ body {
 /* Style for the reset button */
 #reset-filters {
   margin-top: 15px;
-  margin-bottom:15px;
+  margin-bottom: 15px;
   margin-left: 5px;
   padding: 10px;
   background-color: #f70606;
@@ -188,54 +220,51 @@ body {
   cursor: pointer;
 }
 
+/* makes dropdown box darker when you hover over it */
 #reset-filters:hover {
   background-color: #ff9999;
 }
 
+/* styling for when screen is smaller (and items stack) */
 @media (max-width: 1100px) {
 
-  /* Adjust the value as needed */
   .row {
-     flex-direction: column;
-     /* Stack elements */
+    flex-direction: column;
+    /* Stack elements */
   }
 
   #my-map {
-     height: 50vh;
-     /* Adjust map height when stacked */
+    height: 50vh;
+    /* Adjust map height when stacked */
   }
 
   #details-col {
-     margin-top: 2vh;
-     /* Add space when stacked */
-     width: fit-content;
-     overflow-x: auto;
-     /* This allows scrolling if content overflows */
-     max-height: 100vh;
-     /* Limit height so it doesn’t grow infinitely */
+    margin-top: 2vh;
+    /* Add space between elements when stacked */
+    margin-left: 2vh;
+    width: fit-content;
+    overflow-x: auto;
+    /* This allows scrolling if content overflows */
+    max-height: 100vh;
+    /* Limit height so it doesn’t grow infinitely */
   }
 
-}
-
-#filters-col {
-  margin-bottom: 2vh;
-  width: fit-content;
 }
 
 
 #walk_legend,
 #pt_legend {
   font-size: 14px;
-  /* Adjust the size as needed */
 }
 
+/* styling for popup */
 #popup {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5); /* dim background */
+  background: rgba(0, 0, 0, 0.5);/* dim background */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -250,9 +279,10 @@ body {
   max-width: 600px;
   text-align: center;
   position: relative;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
+/* positions the x to close the popup at the top right */
 .close-btn {
   position: absolute;
   top: 10px;
