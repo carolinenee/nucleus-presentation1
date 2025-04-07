@@ -110,39 +110,44 @@ document.addEventListener('DOMContentLoaded', function () {
   let foodProg = null;
   
   // Function to update filters when checkboxes are clicked
-  function updateFilters() {
+ function updateFilters() {
     console.log('Updating filters with day:', selectedDay, 'time:', selectedTime, 'program:', selectedProgram);
 
-    // Only apply filters when ALL THREE are selected
-    if (selectedDay && selectedTime && selectedProgram) {
+    // Start with a base filter (initially empty)
+    let filter = ['all'];
+
+    // Apply day/time filter if both are selected
+    if (selectedDay && selectedTime) {
         const timeIndex = { morning: 0, afternoon: 1, evening: 2 }[selectedTime];
-        
-        // Create day/time filter
         const dayTimeFilter = [
             '==',
             ['at', timeIndex, ['coalesce', ['get', selectedDay], ['literal', [0, 0, 0]]]],
             1
         ];
+        filter.push(dayTimeFilter);
+    }
 
-        // Create program filter
+    // Apply program filter ONLY if:
+    // 1. A program is selected, AND
+    // 2. It's NOT "Show All"
+    if (selectedProgram && selectedProgram !== "Show All") {
         const programFilter = selectedProgram === "Other" 
             ? [
                 '!',
                 ['match',
-                    ['get', 'PROGRAM'],
-                    ['Food Pantry', 'Food Bank', 'Soup Kitchen', 'Multi-Service'],
+                    ['downcase', ['get', 'LEGEND']], // Case-insensitive check
+                    ['food pantry', 'food bank', 'community meal program (soup kitchen)', 'multi-service program'],
                     true,
                     false
                 ]
               ]
-            : ['==', ['get', 'PROGRAM'], selectedProgram];
-
-        // Apply both filters
-        map.setFilter('food_data', ['all', dayTimeFilter, programFilter]);
-    } else {
-        // Show all features if not all three filters are selected
-        map.setFilter('food_data', ['all']);
+            : ['==', ['downcase', ['get', 'LEGEND']], selectedProgram.toLowerCase()];
+        
+        filter.push(programFilter);
     }
+
+    // Apply the final filter
+    map.setFilter('food_data', filter);
 
     if (foodProg) updateLayers();
 }
