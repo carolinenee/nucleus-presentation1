@@ -215,7 +215,7 @@ item.addEventListener('click', (e) => {
 
     map.setFilter('food_data', ['all']);
 
-    document.getElementById('walk').checked = true;
+    document.getElementById('walk').checked = false;
     document.getElementById('walk').disabled = true;
     document.getElementById('walk_pt').checked = false;
     document.getElementById('walk_pt').disabled = true;
