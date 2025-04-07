@@ -57,6 +57,6 @@ Clicking a location reveals a **location profile** and the option to view **netw
 ## Contact 
 
 For more information or questions, please contact the authors through their emails:
-- Caroline Nee:
-- Muhammad Khalis bin Samion:
+- Caroline Nee: carolinernee@gmail.com
+- Muhammad Khalis bin Samion: muhammadkhalisbinsamion@gmail.com
 - Polina Gorn: polinavgorn@gmail.com
