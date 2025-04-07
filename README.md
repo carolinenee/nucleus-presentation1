@@ -10,9 +10,7 @@ The purpose of the map is to explore food deserts in the Peel Region (Mississaug
 
 This map demonstrates that food deserts can exist even when food programs are present in the area, due to varying accessibility constraints.
 
-**Link to the Web Map: https://carolinenee.github.io/nucleus-presentation1/**
 ---
-
 ## Data Sources
 
 1. **Location of Food Programmes in Peel Region**  
@@ -61,3 +59,7 @@ For more information or questions, please contact the authors through their emai
 - Caroline Nee: carolinernee@gmail.com
 - Muhammad Khalis bin Samion: muhammadkhalisbinsamion@gmail.com
 - Polina Gorn: polinavgorn@gmail.com
+
+---
+**Link to the Web Map: https://carolinenee.github.io/nucleus-presentation1/**
+---
